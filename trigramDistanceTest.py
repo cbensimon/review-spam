@@ -44,7 +44,7 @@ for i in range(1000):
     r3G = string2trigram(rText)
     r3G = r3G / float(r3G.sum())
     
-    _, predIds = zip(*sorted([(((F[i] - r3G) * (F[i] - r3G).transpose())[0,0], i) for i in F.keys()]))
+    _, predIds = zip(*sorted([(squareSum(F[i] - r3G), i) for i in F.keys()]))
     
     rId = review['reviewerID']
         

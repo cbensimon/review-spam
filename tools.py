@@ -22,3 +22,6 @@ def string2trigram(s):
     tab3G = tab3G.sum(axis=1)
     
     return csr_matrix(np.bincount(tab3G, minlength=128**3)).astype(np.uint32)
+
+def squareSum(A):
+    return (A * A.transpose())[0, 0]
