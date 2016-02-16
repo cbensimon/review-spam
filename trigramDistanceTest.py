@@ -7,10 +7,10 @@ Created on Thu Feb 11 15:37:44 2016
 
 from tools import *
 
-data = pkl.load(open('movies_150k.pkl'))
+data = pkl.load(open('Data/movies_150k.pkl'))
 print 'Data loaded'
 
-F = pkl.load(gzip.open('trigramCounts.pklz', 'r'))
+F = pkl.load(gzip.open('Dumped/trigramCounts.pklz', 'r'))
 print 'Trigrams loaded'
 
 for rId in F.keys():

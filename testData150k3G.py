@@ -7,7 +7,7 @@ Created on Fri Feb  5 12:23:12 2016
 
 from tools import *
 
-data = pkl.load(open('movies_150k.pkl'))
+data = pkl.load(open('Data/movies_150k.pkl'))
 print 'Data loaded'
 
 F = {}
@@ -30,6 +30,6 @@ for review in data:
         
     F[rId] = F[rId] + r3G
 
-f = gzip.open('trigramCounts.pklz', 'wb')    
+f = gzip.open('Dumped/trigramCounts.pklz', 'wb')
 pkl.dump(F, f)
 f.close()
