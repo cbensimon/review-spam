@@ -10,30 +10,55 @@ from tools import *
 data = pkl.load(open('Data/movies_150k.pkl'))
 print 'Data loaded'
 
-N = len(data)
-X = None
-Y = []
-
-for i in range(200):
+def createArrays(data):
     
-    review = data[i]
+    N = len(data)
+    X = []
+    Y = []
     
-    print i
+    for i in range(N):
     
-    if i%(N/100) == 0:
-        print str((100*i)/N) + ' %'
-    
-    rText = review['reviewText']
-    rId = review['reviewerID']
-    r3G = string2trigram(rText)
-    
-    if X == None:
-        X = r3G
-    else:
-        X = vstack([X, r3G])
+        review = data[i]
         
-    Y.append(rId)
+        print i
+        
+        if i%(N/100) == 0:
+            print str((100*i)/N) + ' %'
+        
+        rText = review['reviewText']
+        rId = review['reviewerID']
+        r3G = string2trigram(rText)
+        
+        X.append(r3G)           
+        Y.append(rId)
+        
+    return (X, Y)
     
+
+def reduceToMatrix(array):
+    
+    print 'r2m'
+    
+    n = len(array)
+    if n == 1:
+        return array[0]
+        
+    if n%2 == 0:
+        rg = range(0, n, 2)
+    else:
+        rg = range(0, n-1, 2)
+    
+    R = []
+    for i in rg:
+        R.append(vstack([array[i], array[i+1]]))
+    
+    if not n%2 == 0:
+        R.append(array[-1])
+        
+    return reduceToMatrix(R)
+    
+(X, Y) = createArrays(data)
+X = reduceToMatrix(X)
     
 f = gzip.open('Data/reviews_trigrams.pklz', 'wb')
 pkl.dump((X, Y), f)
