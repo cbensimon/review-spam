@@ -6,6 +6,7 @@ Created on Tue Feb 16 17:59:58 2016
 """
 
 from tools import *
+from asynctools import *
 
 data = pkl.load(open('Data/movies_150k.pkl'))
 print 'Data loaded'
@@ -19,8 +20,6 @@ def createArrays(data):
     for i in range(N):
     
         review = data[i]
-        
-        print i
         
         if i%(N/100) == 0:
             print str((100*i)/N) + ' %'
@@ -56,10 +55,16 @@ def reduceToMatrix(array):
         R.append(array[-1])
         
     return reduceToMatrix(R)
-    
-(X, Y) = createArrays(data)
+
+X, Y = [], []
+XYs = asyncQueue(createArrays, data)
+for (x, y) in XYs:
+    X.extend(x)
+    Y.extend(y)   
+XYs = None
+
 X = reduceToMatrix(X)
-    
-f = gzip.open('Data/reviews_trigrams.pklz', 'wb')
+ 
+f = open('Data/reviews_trigrams.pkl', 'wb')
 pkl.dump((X, Y), f)
 f.close()
