@@ -29,6 +29,9 @@ for i in range(len(data)):
     
 F = F.toarray()
 
+f = open('Dumped/globalTrigram.pkl', 'wb')
+pkl.dump(F, f)
+
 low = 5
 high = F.max()
 
